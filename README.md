@@ -72,6 +72,20 @@ You should see a GUI section indicating Win32 UI (older builds) or a working Qt6
 
 ***
 
+## 📦 Alternative: Environment file (environment.yml)
+
+**Use this Pre-Configured environment for a Reproducible setup.**
+
+How to use it
+- Create the environment:
+  - ```conda env create -f environment.yml```
+- Activate:
+  - ```conda activate face_attend```
+- Verify key imports:
+  - ```python -c "import cv2, dlib, face_recognition, pandas, numpy as np; print('OK')"```
+
+***
+
 ## ▶️ Usage
 
 Run the attendance system:
@@ -262,3 +276,4 @@ This project is licensed under the **MIT License** – feel free to use and modi
 Developed by **[creativepurus](https://github.com/creativepurus)** 🔥
 
 ## 👉🏻 [LinkedIn](https://linkedin.com/in/creativepurus) | [GitHub](https://github.com/creativepurus)
+
