@@ -16,20 +16,26 @@ known_face_encodings = []
 known_face_names = []
 
 print("📂 Loading known faces...")
+
 for filename in os.listdir(IMAGES_PATH):
+    
     if filename.lower().endswith(('.jpg', '.jpeg', '.png')):
         image_path = os.path.join(IMAGES_PATH, filename)
+        
         try:
             image = face_recognition.load_image_file(image_path)
             face_locations = face_recognition.face_locations(image)
             face_encodings = face_recognition.face_encodings(image, face_locations)
+            
             if len(face_encodings) > 0:
                 label = os.path.splitext(filename)[0].replace('_', ' ').title()
                 known_face_encodings.append(face_encodings)
                 known_face_names.append(label)
                 print(f"✅ Found face and encoding for {filename} as '{label}'")
+                
             else:
                 print(f"⚠️ No face found in {filename}")
+                
         except Exception as e:
             print(f"❌ Error with {filename}: {e}")
 
@@ -47,9 +53,11 @@ else:
 # Open webcam
 print("🔎 Attempting to open webcam...")
 video_capture = cv2.VideoCapture(0)
+
 if not video_capture.isOpened():
     print("❌ Cannot open webcam. Exiting.")
     exit()
+    
 print("✅ Webcam detected. Starting attendance system...")
 print("Press 'q' to quit.")
 
@@ -81,6 +89,7 @@ try:
                     (attendance_df["Name"] == name) &
                     (attendance_df["Date"] == date_str)
                 ).any()
+                
                 if not already_recorded:
                     new_entry = {"Name": name, "Date": date_str, "Time": time_str}
                     attendance_df = pd.concat([attendance_df, pd.DataFrame([new_entry])], ignore_index=True)
@@ -90,12 +99,14 @@ try:
             top, right, bottom, left = [v * 4 for v in (top, right, bottom, left)]
             cv2.rectangle(frame, (left, top), (right, bottom), (0, 255, 0), 2)
             cv2.putText(frame, name, (left + 6, bottom - 6),
-                        cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 0, 0), 2)
+            cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 0, 0), 2)
 
         cv2.imshow("Attendance System", frame)
+        
         if cv2.waitKey(1) & 0xFF == ord('q'):
             print("🚪 Exiting...")
             break
+            
 except Exception as e:
     print(f"⚠️ Error occurred: {e}")
 
